@@ -50,9 +50,9 @@ public class TopAction extends ActionBase {
         List<MemoView> memos = service.getMinePerPage(loginUser, page);
 
         //ログイン中のユーザーが作成したメモデータの件数を取得
-        long myMomosCount = service.countAllMine(loginUser);
+        long myMemosCount = service.countAllMine(loginUser);
 
-        putRequestScope(AttributeConst.MEMOS, momos); //取得したメモデータ
+        putRequestScope(AttributeConst.MEMOS, memos); //取得したメモデータ
         putRequestScope(AttributeConst.MEM_COUNT, myMemosCount); //ログイン中のユーザーが作成したメモの数
         putRequestScope(AttributeConst.PAGE, page); //ページ数
         putRequestScope(AttributeConst.MAX_ROW, JpaConst.ROW_PER_PAGE); //1ページに表示するレコードの数

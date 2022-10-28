@@ -46,7 +46,7 @@ public class MemoAction extends ActionBase {
         int page = getPage();
         List<MemoView> memos = service.getAllPerPage(page);
 
-        //全日報データの件数を取得
+        //全メモデータの件数を取得
         long memosCount = service.countAll();
 
         putRequestScope(AttributeConst.MEMOS, memos); //取得したメモデータ
@@ -64,6 +64,7 @@ public class MemoAction extends ActionBase {
         //一覧画面を表示
         forward(ForwardConst.FW_MEM_INDEX);
     }
+
     /**
      * 新規登録画面を表示する
      * @throws ServletException
@@ -82,6 +83,7 @@ public class MemoAction extends ActionBase {
         forward(ForwardConst.FW_MEM_NEW);
 
     }
+
     /**
      * 新規登録を行う
      * @throws ServletException
@@ -138,6 +140,7 @@ public class MemoAction extends ActionBase {
             }
         }
     }
+
     /**
      * 詳細画面を表示する
      * @throws ServletException
@@ -160,6 +163,7 @@ public class MemoAction extends ActionBase {
             forward(ForwardConst.FW_MEM_SHOW);
         }
     }
+
     /**
      * 編集画面を表示する
      * @throws ServletException
@@ -188,6 +192,7 @@ public class MemoAction extends ActionBase {
         }
 
     }
+
     /**
      * 更新を行う
      * @throws ServletException
@@ -228,6 +233,29 @@ public class MemoAction extends ActionBase {
                 redirect(ForwardConst.ACT_MEM, ForwardConst.CMD_INDEX);
 
             }
+        }
+    }
+
+    /**
+     * 削除を行う
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void delete() throws ServletException, IOException {
+
+        //CSRF対策 tokenのチェック
+        if (checkToken()) {
+
+            //
+            MemoView mv = new MemoView(toNumber(getRequestParam(AttributeConst.MEM_ID)), null, null, null, null, null,
+                    null);
+
+            //削除
+            service.delete(mv);
+
+            //一覧画面にリダイレクト
+            redirect(ForwardConst.ACT_MEM, ForwardConst.CMD_INDEX);
+
         }
     }
 }

@@ -6,7 +6,7 @@ import java.util.List;
 import models.Memo;
 
 /**
- * 日報データのDTOモデル⇔Viewモデルの変換を行うクラス
+ * メモデータのDTOモデル⇔Viewモデルの変換を行うクラス
  *
  */
 public class MemoConverter {
@@ -79,4 +79,20 @@ public class MemoConverter {
 
     }
 
+
+    /**
+     * Viewモデルの全フィールドの内容をDTOモデルのフィールドにコピーする
+     * @param m DTOモデル(コピー先)
+     * @param mv Viewモデル(コピー元)
+     */
+    public static void deleteViewToModel(Memo m) {
+        m.setId(null);
+        m.setUser(null);
+        m.setReportDate(null);
+        m.setTitle(null);
+        m.setContent(null);
+        m.setCreatedAt(null);
+        m.setUpdatedAt(null);
+
+    }
 }

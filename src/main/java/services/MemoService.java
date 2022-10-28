@@ -80,8 +80,8 @@ public class MemoService extends ServiceBase {
     }
 
     /**
-     * 画面から入力された日報の登録内容を元にデータを1件作成し、日報テーブルに登録する
-     * @param mv 日報の登録内容
+     * 画面から入力されたメモの登録内容を元にデータを1件作成し、メモテーブルに登録する
+     * @param mv メモの登録内容
      * @return バリデーションで発生したエラーのリスト
      */
     public List<String> create(MemoView mv) {
@@ -96,6 +96,8 @@ public class MemoService extends ServiceBase {
         //バリデーションで発生したエラーを返却（エラーがなければ0件の空リスト）
         return errors;
     }
+
+
 
     /**
      * 画面から入力されたメモの登録内容を元に、メモデータを更新する
@@ -119,6 +121,8 @@ public class MemoService extends ServiceBase {
         //バリデーションで発生したエラーを返却（エラーがなければ0件の空リスト）
         return errors;
     }
+
+
 
     /**
      * idを条件にデータを1件取得する
@@ -153,5 +157,19 @@ public class MemoService extends ServiceBase {
         em.getTransaction().commit();
 
     }
+
+    /**
+     * メモデータを削除する
+     * @param mv メモデータ
+     */
+    public void delete(MemoView mv) {
+
+        em.getTransaction().begin();
+        Memo m = findOneInternal(mv.getId());
+        em.remove(m);
+        em.getTransaction().commit();
+
+    }
+
 
 }

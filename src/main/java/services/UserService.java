@@ -85,7 +85,7 @@ public class UserService extends ServiceBase {
      */
     public long countByCode(String code) {
 
-        //指定した社員番号を保持する従業員の件数を取得する
+        //指定したユーザー番号を保持するユーザーの件数を取得する
         long users_count = (long) em.createNamedQuery(JpaConst.Q_USR_COUNT_REGISTERED_BY_CODE, Long.class)
                 .setParameter(JpaConst.JPQL_PARM_CODE, code)
                 .getSingleResult();
@@ -123,7 +123,7 @@ public class UserService extends ServiceBase {
 
     /**
      * 画面から入力されたユーザーの更新内容を元にデータを1件作成し、ユーザーテーブルを更新する
-     * @param uv 画面から入力された従業員の登録内容
+     * @param uv 画面から入力されたユーザーの登録内容
      * @param pepper pepper文字列
      * @return バリデーションや更新処理中に発生したエラーのリスト
      */
@@ -155,7 +155,7 @@ public class UserService extends ServiceBase {
         }
 
         savedUsr.setName(uv.getName()); //変更後の氏名を設定する
-        //savedEmp.setAdminFlag(ev.getAdminFlag()); //変更後の管理者フラグを設定する
+
 
         //更新日時に現在時刻を設定する
         LocalDateTime today = LocalDateTime.now();
@@ -179,7 +179,7 @@ public class UserService extends ServiceBase {
      */
     public void destroy(Integer id) {
 
-        //idを条件に登録済みの従業員情報を取得する
+        //idを条件に登録済みのユーザー情報を取得する
         UserView savedUsr = findOne(id);
 
         //更新日時に現在時刻を設定する
@@ -203,19 +203,19 @@ public class UserService extends ServiceBase {
      */
     public Boolean validateLogin(String code, String plainPass, String pepper) {
 
-        boolean isValidEmployee = false;
+        boolean isValidUser = false;
         if (code != null && !code.equals("") && plainPass != null && !plainPass.equals("")) {
             UserView uv = findOne(code, plainPass, pepper);
 
             if (uv != null && uv.getId() != null) {
 
                 //データが取得できた場合、認証成功
-                isValidEmployee = true;
+                isValidUser = true;
             }
         }
 
         //認証結果を返却する
-        return isValidEmployee;
+        return isValidUser;
     }
 
     /**
@@ -231,7 +231,7 @@ public class UserService extends ServiceBase {
 
     /**
      * ユーザーデータを1件登録する
-     * @param uv 従業員データ
+     * @param uv ユーザーデータ
      * @return 登録結果(成功:true 失敗:false)
      */
     private void create(UserView uv) {
@@ -243,7 +243,7 @@ public class UserService extends ServiceBase {
     }
 
     /**
-     * 従業員データを更新する
+     * ユーザーデータを更新する
      * @param uv 画面から入力された従業員の登録内容
      */
     private void update(UserView uv) {

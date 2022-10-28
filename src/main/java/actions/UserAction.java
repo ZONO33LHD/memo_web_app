@@ -42,8 +42,7 @@ public class UserAction extends ActionBase {
      */
     public void index() throws ServletException, IOException {
 
-        //管理者かどうかのチェック
-        /*if (checkAdmin()) {*/
+
 
             //指定されたページ数の一覧画面に表示するデータを取得
             int page = getPage();
@@ -69,8 +68,6 @@ public class UserAction extends ActionBase {
 
         }
 
-   /* }*/
-
     /**
      * 新規登録画面を表示する
      * @throws ServletException
@@ -78,15 +75,12 @@ public class UserAction extends ActionBase {
      */
     public void entryNew() throws ServletException, IOException {
 
-        //管理者かどうかのチェック
-        /*if (checkAdmin()) { */
             putRequestScope(AttributeConst.TOKEN, getTokenId()); //CSRF対策用トークン
             putRequestScope(AttributeConst.USER, new UserView()); //空のユーザーインスタンス
 
             //新規登録画面を表示
             forward(ForwardConst.FW_USR_NEW);
         }
-   /* }*/
 
     /**
      * 新規登録を行う
@@ -96,7 +90,7 @@ public class UserAction extends ActionBase {
     public void create() throws ServletException, IOException {
 
         //CSRF対策 tokenのチェック
-        if (/*checkAdmin() && */checkToken()) {
+        if (checkToken()) {
 
             //パラメータの値を元にユーザー情報のインスタンスを作成する
             UserView uv = new UserView(
@@ -145,8 +139,7 @@ public class UserAction extends ActionBase {
      */
     public void show() throws ServletException, IOException {
 
-        //管理者かどうかのチェック
-        /*if (checkAdmin()) {*/
+
 
             //idを条件にユーザーデータを取得する
            UserView uv = service.findOne(toNumber(getRequestParam(AttributeConst.USR_ID)));
@@ -164,7 +157,6 @@ public class UserAction extends ActionBase {
             forward(ForwardConst.FW_USR_SHOW);
         }
 
-    /*}*/
 
     /**
      * 編集画面を表示する
@@ -173,8 +165,6 @@ public class UserAction extends ActionBase {
      */
     public void edit() throws ServletException, IOException {
 
-        //ユーザーかどうかのチェック
-        /* if (checkAdmin()) {*/
 
             //idを条件にユーざーデータを取得する
             UserView uv = service.findOne(toNumber(getRequestParam(AttributeConst.USR_ID)));
@@ -193,7 +183,6 @@ public class UserAction extends ActionBase {
             forward(ForwardConst.FW_USR_EDIT);
 
         }
-    /*}*/
 
     /**
      * 更新を行う
@@ -203,7 +192,7 @@ public class UserAction extends ActionBase {
     public void update() throws ServletException, IOException {
 
         //CSRF対策 tokenのチェック
-        if (/*checkAdmin() && */checkToken()) {
+        if (checkToken()) {
             //パラメータの値を元にユーザー情報のインスタンスを作成する
             UserView uv = new UserView(
                     toNumber(getRequestParam(AttributeConst.USR_ID)),
@@ -250,7 +239,7 @@ public class UserAction extends ActionBase {
     public void destroy() throws ServletException, IOException {
 
         //CSRF対策 tokenのチェック
-        if (/*checkAdmin() && */checkToken()) {
+        if (checkToken()) {
 
             //idを条件にユーザーデータを論理削除する
             service.destroy(toNumber(getRequestParam(AttributeConst.USR_ID)));
@@ -263,28 +252,5 @@ public class UserAction extends ActionBase {
         }
     }
 
-    /**
-     * ログイン中の従業員が管理者かどうかチェックし、管理者でなければエラー画面を表示
-     * true: 管理者 false: 管理者ではない
-     * @throws ServletException
-     * @throws IOException
 
-    private boolean checkAdmin() throws ServletException, IOException {
-
-        //セッションからログイン中の従業員情報を取得
-        EmployeeView ev = (EmployeeView) getSessionScope(AttributeConst.LOGIN_EMP);
-
-        //管理者でなければエラー画面を表示
-        if (ev.getAdminFlag() != AttributeConst.ROLE_ADMIN.getIntegerValue()) {
-
-            forward(ForwardConst.FW_ERR_UNKNOWN);
-            return false;
-
-        } else {
-
-            return true;
-        }
-
-    }
-     */
 }

@@ -52,7 +52,7 @@ public class FrontController extends HttpServlet {
 
     /**
      * リクエストパラメータの値から該当するActionクラスのインスタンスを作成し、返却する
-     * (例:パラメータが action=Employee の場合、actions.EmployeeActionオブジェクト)
+     * (例:パラメータが action=User の場合、actions.UserActionオブジェクト)
      * @param request リクエスト
      * @param response レスポンス
      * @return
@@ -66,10 +66,10 @@ public class FrontController extends HttpServlet {
             //リクエストからパラメータ"action"の値を取得 (例:"User"、"Memo")
             String actionString = request.getParameter(ForwardConst.ACT.getValue());
 
-            //該当するActionオブジェクトを作成 (例:リクエストからパラメータ action=Employee の場合、actions.EmployeeActionオブジェクト)
+            //該当するActionオブジェクトを作成 (例:リクエストからパラメータ action=User の場合、actions.UserActionオブジェクト)
             type = Class.forName(String.format("actions.%sAction", actionString));
 
-            //ActionBaseのオブジェクトにキャスト(例:actions.EmployeeActionオブジェクト→actions.ActionBaseオブジェクト)
+            //ActionBaseのオブジェクトにキャスト(例:actions.UserActionオブジェクト→actions.ActionBaseオブジェクト)
             action = (ActionBase) (type.asSubclass(ActionBase.class)
                     .getDeclaredConstructor()
                     .newInstance());

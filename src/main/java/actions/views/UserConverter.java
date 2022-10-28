@@ -37,8 +37,8 @@ public class UserConverter {
 
     /**
      * DTOモデルのインスタンスからViewモデルのインスタンスを作成する
-     * @param e Employeeのインスタンス
-     * @return EmployeeViewのインスタンス
+     * @param u Userのインスタンス
+     * @return UserViewのインスタンス
      */
     public static UserView toView(User u) {
 
@@ -75,7 +75,7 @@ public class UserConverter {
     public static List<UserView> toViewList(List<User> list) {
         List<UserView> uvs = new ArrayList<>();
 
-        for (user u : list) {
+        for (User u : list) {
             uvs.add(toView(u));
         }
 
@@ -84,8 +84,8 @@ public class UserConverter {
 
     /**
      * Viewモデルの全フィールドの内容をDTOモデルのフィールドにコピーする
-     * @param e DTOモデル(コピー先)
-     * @param ev Viewモデル(コピー元)
+     * @param u DTOモデル(コピー先)
+     * @param uv Viewモデル(コピー元)
      */
     public static void copyViewToModel(User u, UserView uv) {
         u.setId(uv.getId());

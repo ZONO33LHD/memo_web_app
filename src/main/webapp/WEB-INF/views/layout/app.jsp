@@ -4,8 +4,8 @@
 <%@ page import="constants.AttributeConst" %>
 
 <c:set var="actTop" value="${ForwardConst.ACT_TOP.getValue()}" />
-<c:set var="actEmp" value="${ForwardConst.ACT_EMP.getValue()}" />
-<c:set var="actRep" value="${ForwardConst.ACT_REP.getValue()}" />
+<c:set var="actUsr" value="${ForwardConst.ACT_USR.getValue()}" />
+<c:set var="actMem" value="${ForwardConst.ACT_MEM.getValue()}" />
 <c:set var="actAuth" value="${ForwardConst.ACT_AUTH.getValue()}" />
 
 <c:set var="commIdx" value="${ForwardConst.CMD_INDEX.getValue()}" />
@@ -15,7 +15,7 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-    <title><c:out value="日報管理システム" /></title>
+    <title><c:out value="メモ帳システム" /></title>
     <link rel="stylesheet" href="<c:url value='/css/reset.css' />">
     <link rel="stylesheet" href="<c:url value='/css/style.css' />">
 </head>
@@ -24,17 +24,16 @@
         <div id="header">
             <div id="header_menu">
                 <h1><a href="<c:url value='/?action=${actTop}&command=${commIdx}' />">メモ張</a></h1>&nbsp;&nbsp;&nbsp;
-                <c:if test="${sessionScope.login_employee != null}">
-                    <c:if test="${sessionScope.login_employee.adminFlag == AttributeConst.ROLE_ADMIN.getIntegerValue()}">
-                        <a href="<c:url value='?action=${actEmp}&command=${commIdx}' />">従業員管理</a>&nbsp;
-                    </c:if>
-                    <a href="<c:url value='?action=${actRep}&command=${commIdx}' />">日報管理</a>&nbsp;
+                <c:if test="${sessionScope.login_user != null}">
+
+
                 </c:if>
             </div>
-            <c:if test="${sessionScope.login_employee != null}">
-                <div id="employee_name">
-                    <c:out value="${sessionScope.login_employee.name}" />
+            <c:if test="${sessionScope.login_user != null}">
+                <div id="user_name">
+                    <c:out value="${sessionScope.login_user.name}" />
                     &nbsp;さん&nbsp;&nbsp;&nbsp;
+
                     <a href="<c:url value='?action=${actAuth}&command=${commOut}' />">ログアウト</a>
                 </div>
             </c:if>

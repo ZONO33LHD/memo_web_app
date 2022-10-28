@@ -70,13 +70,13 @@ public class Memo {
     private LocalDate reportDate;
 
     /**
-     * 日報のタイトル
+     * メモのタイトル
      */
     @Column(name = JpaConst.MEM_COL_TITLE, length = 255, nullable = false)
     private String title;
 
     /**
-     * 日報の内容
+     * メモの内容
      */
     @Lob
     @Column(name = JpaConst.MEM_COL_CONTENT, nullable = false)

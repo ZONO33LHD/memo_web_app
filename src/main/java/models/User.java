@@ -36,11 +36,6 @@ import lombok.Setter;
             name = JpaConst.Q_USR_GET_BY_CODE_AND_PASS,
             query = JpaConst.Q_USR_GET_BY_CODE_AND_PASS_DEF)
 })
-//頂いた
-    @NamedQuery(
-            name = "checkLoginCodeAndPassword",
-            query = "SELECT e FROM User AS e WHERE e.delete_flag = 0 AND e.code = :code AND e.password = :pass"
-            )
 
 @Getter //全てのクラスフィールドについてgetterを自動生成する(Lombok)
 @Setter //全てのクラスフィールドについてsetterを自動生成する(Lombok)
@@ -75,11 +70,7 @@ public class User {
     @Column(name = JpaConst.USR_COL_PASS, length = 64, nullable = false)
     private String password;
 
-    /**
-     * 管理者権限があるかどうか（一般：0、管理者：1）
-    @Column(name = JpaConst.EMP_COL_ADMIN_FLAG, nullable = false)
-    private Integer adminFlag;
-    */
+
 
     /**
      *登録日時

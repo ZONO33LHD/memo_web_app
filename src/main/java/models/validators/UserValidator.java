@@ -63,7 +63,7 @@ public class UserValidator {
         if (codeDuplicateCheckFlag) {
             //ユーザー番号の重複チェックを実施
 
-            long usersCount = isDuplicateEmployee(service, code);
+            long usersCount = isDuplicateUser(service, code);
 
             //同一ユーザー番号が既に登録されている場合はエラーメッセージを返却
             if (usersCount > 0) {
@@ -78,9 +78,9 @@ public class UserValidator {
     /**
      * @param service UserServiceのインスタンス
      * @param code ユーザー番号
-     * @return ユーザーテーブルに登録されている同一社員番号のデータの件数
+     * @return ユーザーテーブルに登録されている同一ユーザー番号のデータの件数
      */
-    private static long isDuplicateEmployee(UserService service, String code) {
+    private static long isDuplicateUser(UserService service, String code) {
 
         long usersCount = service.countByCode(code);
         return usersCount;

@@ -21,7 +21,7 @@ import constants.ForwardConst;
 /**
  * Servlet Filter implementation class LoginFilter
  */
-@WebFilter("/*")
+@WebFilter("/hoge*")
 public class LoginFilter implements Filter {
 
     /**
@@ -55,7 +55,7 @@ public class LoginFilter implements Filter {
             String action = request.getParameter(ForwardConst.ACT.getValue());
             String command = request.getParameter(ForwardConst.CMD.getValue());
 
-            //セッションからログインしている従業員の情報を取得
+            //セッションからログインしているユーザーの情報を取得
             MemoView mv = (MemoView) session.getAttribute(AttributeConst.LOGIN_USR.getValue());
 
             if (mv == null) {

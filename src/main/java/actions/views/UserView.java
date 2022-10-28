@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * 従業員情報について画面の入力値・出力値を扱うViewモデル
+ * ユーザー情報について画面の入力値・出力値を扱うViewモデル
  *
  */
 @Getter //全てのクラスフィールドについてgetterを自動生成する(Lombok)
@@ -36,12 +36,6 @@ public class UserView {
      * パスワード
      */
     private String password;
-
-    /**
-     * 管理者権限があるかどうか（一般：0、管理者：1）
-
-    private Integer adminFlag;
-     */
 
     /**
      *登録日時

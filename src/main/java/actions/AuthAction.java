@@ -53,12 +53,14 @@ public class AuthAction extends ActionBase {
         //ログイン画面を表示
         forward(ForwardConst.FW_LOGIN);
     }
+
     /**
      * ログイン処理を行う
      * @throws ServletException
      * @throws IOException
      */
     public void login() throws ServletException, IOException {
+
 
         String code = getRequestParam(AttributeConst.USR_CODE);
         String plainPass = getRequestParam(AttributeConst.USR_PASS);
@@ -74,9 +76,9 @@ public class AuthAction extends ActionBase {
             if (checkToken()) {
 
                 //ログインした従業員のDBデータを取得
-                UserView uv = service.findOne(code, plainPass, pepper);
-                //セッションにログインした従業員を設定
-                putSessionScope(AttributeConst.LOGIN_USR, uv);
+                UserView ev = service.findOne(code, plainPass, pepper);
+                //セッションにログインしたユーザーを設定
+                putSessionScope(AttributeConst.LOGIN_USR, ev);
                 //セッションにログイン完了のフラッシュメッセージを設定
                 putSessionScope(AttributeConst.FLUSH, MessageConst.I_LOGINED.getMessage());
                 //トップページへリダイレクト
@@ -89,7 +91,7 @@ public class AuthAction extends ActionBase {
             putRequestScope(AttributeConst.TOKEN, getTokenId());
             //認証失敗エラーメッセージ表示フラグをたてる
             putRequestScope(AttributeConst.LOGIN_ERR, true);
-            //入力された従業員コードを設定
+            //入力されたユーザーコードを設定
             putRequestScope(AttributeConst.USR_CODE, code);
 
             //ログイン画面を表示
@@ -103,7 +105,7 @@ public class AuthAction extends ActionBase {
      */
     public void logout() throws ServletException, IOException {
 
-        //セッションからログイン従業員のパラメータを削除
+        //セッションからログインユーザーのパラメータを削除
         removeSessionScope(AttributeConst.LOGIN_USR);
 
         //セッションにログアウト時のフラッシュメッセージを追加

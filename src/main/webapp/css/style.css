@@ -1,15 +1,16 @@
 @CHARSET "UTF-8";
 
 body {
-    color: #333333;
+
     font-family: "Hiragino Kaku Gothic Pro", Meiryo, "MS PGothic", Helvetica,
         Arial, sans-serif;
+
 }
 
 #header {
     width: 100%;
     height: 70px;
-    background-color: #333333;
+    background-color: #35829f;
 }
 
 #content {
@@ -19,12 +20,12 @@ body {
 }
 
 h1 {
-    font-size: 24px;
+    font-size: 32px;
     display: inline;
 }
 
 h2 {
-    font-size: 36px;
+    font-size: 25px;
     margin-bottom: 15px;
 }
 
@@ -91,12 +92,12 @@ button {
     background-color: #f8d7da;
 }
 
-table#employee_list th {
+table#user_list th {
     width: 30%;
     padding: 10px 2%;
 }
 
-table#employee_list td {
+table#user_list td {
     width: 29%;
     padding: 10px 2%;
 }
@@ -120,7 +121,7 @@ select {
     display: inline-block;
 }
 
-#employee_name {
+#user_name {
     color: #cccccc;
     width: 36%;
     padding-right: 3%;
@@ -136,47 +137,47 @@ h1 a {
     color: #eeeeee;
 }
 
-table#report_list th {
+table#memo_list th {
     font-weight: bold;
     padding: 10px 2%;
 }
 
-table#report_list .report_name {
+table#memo_list .memo_name {
     width: 20%;
     padding: 10px 2%;
 }
 
-table#report_list .report_date {
+table#memo_list .memo_date {
     width: 20%;
 }
 
-table#report_list .report_title {
+table#memo_list .memo_title {
     width: 37%;
 }
 
-table#report_list .report_ation {
+table#memo_list .memo_ation {
     width: 13%;
 }
 
-table#report_list th {
+table#memo_list th {
     font-weight: bold;
     padding: 10px 2%;
 }
 
-table#report_list .report_name {
+table#memo_list .memo_name {
     width: 20%;
     padding: 10px 2%;
 }
 
-table#report_list report_date {
+table#memo_list memo_date {
     width: 20%;
 }
 
-table#report_list .report_title {
+table#memo_list .memo_title {
     width: 37%;
 }
 
-table#report_list .report_action {
+table#memo_list .memo_action {
     width: 13%;
 }
 
@@ -187,4 +188,12 @@ pre {
 
 h3 {
     font-size: larger;
+}
+
+#user_name {
+   color: #cccccc;
+    width: 36%;
+    padding-right: 3%;
+    text-align: right;
+    display: inline-block;
 }

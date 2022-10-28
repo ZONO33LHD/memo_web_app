@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * 日報情報について画面の入力値・出力値を扱うViewモデル
+ * メモ情報について画面の入力値・出力値を扱うViewモデル
  *
  */
 @Getter //全てのクラスフィールドについてgetterを自動生成する(Lombok)
@@ -24,12 +24,12 @@ public class MemoView {
     private Integer id;
 
     /**
-     * 日報を登録したユーザー
+     * メモを登録したユーザー
      */
     private UserView user;
 
     /**
-     * いつの日報かを示す日付
+     * いつのメモかを示す日付
      */
     private LocalDate reportDate;
 

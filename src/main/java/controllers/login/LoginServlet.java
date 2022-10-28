@@ -2,8 +2,6 @@ package controllers.login;
 
 import java.io.IOException;
 
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,31 +9,43 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import models.User;
-import utils.DBUtil;
-import utils.EncryptUtil;
+import actions.ActionBase;
+import actions.views.UserView;
+import constants.AttributeConst;
+import constants.ForwardConst;
+import constants.MessageConst;
+import constants.PropertyConst;
+import services.UserService;
 
 /**
  * Servlet implementation class LoginServlet
  */
 @WebServlet("/login")
-public class LoginServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
+/**
+ * 認証に関する処理を行うActionクラス
+ *
+ */
+public class LoginServlet extends ActionBase {
+
+    private UserService service;
 
     /**
-     * @see HttpServlet#HttpServlet()
+     * メソッドを実行する
      */
-    public LoginServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+    @Override
+    public void process() throws ServletException, IOException {
 
+        service = new UserService();
+
+        //メソッドを実行
+        invoke();
+
+        service.close();
+    }
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
-    // ログイン画面を表示
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("_token", request.getSession().getId());
         request.setAttribute("loginError", false);
         if(request.getSession().getAttribute("flush") != null) {
@@ -48,56 +58,47 @@ public class LoginServlet extends HttpServlet {
     }
 
     /**
-     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+     * ログイン処理を行う
+     * @throws ServletException
+     * @throws IOException
      */
-    // ログイン処理を実行
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // 認証結果を格納する変数
-        Boolean check_result = false;
+    public void login() throws ServletException, IOException {
 
-        String code = request.getParameter("code");
-        String plain_pass = request.getParameter("password");
 
-        User u = null;
+        String code = getRequestParam(AttributeConst.USR_CODE);
+        String plainPass = getRequestParam(AttributeConst.USR_PASS);
+        String pepper = getContextScope(PropertyConst.PEPPER);
 
-        if(code != null && !code.equals("") && plain_pass != null && !plain_pass.equals("")) {
-            EntityManager em = DBUtil.createEntityManager();
+        //有効な従業員か認証する
+        Boolean isValidUser = service.validateLogin(code, plainPass, pepper);
 
-            String password = EncryptUtil.getPasswordEncrypt(
-                    plain_pass,
-                    (String)this.getServletContext().getAttribute("salt")
-                    );
+        if (isValidUser) {
+            //認証成功の場合
 
-            // 社員番号とパスワードが正しいかチェックする
-            try {
-                u = em.createNamedQuery("checkLoginCodeAndPassword", User.class)
-                      .setParameter("code", code)
-                      .setParameter("pass", password)
-                      .getSingleResult();
-            } catch(NoResultException ex) {}
+            //CSRF対策 tokenのチェック
+            if (checkToken()) {
 
-            em.close();
-
-            if(u != null) {
-                check_result = true;
+                //ログインした従業員のDBデータを取得
+                UserView ev = service.findOne(code, plainPass, pepper);
+                //セッションにログインした従業員を設定
+                putSessionScope(AttributeConst.LOGIN_USR, ev);
+                //セッションにログイン完了のフラッシュメッセージを設定
+                putSessionScope(AttributeConst.FLUSH, MessageConst.I_LOGINED.getMessage());
+                //トップページへリダイレクト
+                redirect(ForwardConst.ACT_TOP, ForwardConst.CMD_INDEX);
             }
-        }
-
-        if(!check_result) {
-            // 認証できなかったらログイン画面に戻る
-            request.setAttribute("_token", request.getSession().getId());
-            request.setAttribute("hasError", true);
-            request.setAttribute("code", code);
-
-            RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/login/login.jsp");
-            rd.forward(request, response);
         } else {
-            // 認証できたらログイン状態にしてトップページへリダイレクト
-            request.getSession().setAttribute("login_employee", u);
+            //認証失敗の場合
 
-            request.getSession().setAttribute("flush", "ログインしました。");
-            response.sendRedirect(request.getContextPath() + "/");
+            //CSRF対策用トークンを設定
+            putRequestScope(AttributeConst.TOKEN, getTokenId());
+            //認証失敗エラーメッセージ表示フラグをたてる
+            putRequestScope(AttributeConst.LOGIN_ERR, true);
+            //入力された従業員コードを設定
+            putRequestScope(AttributeConst.USR_CODE, code);
+
+            //ログイン画面を表示
+            forward(ForwardConst.FW_LOGIN);
         }
     }
 
