@@ -29,4 +29,4 @@
 
 <input type="hidden" name="${AttributeConst.USR_ID.getValue()}" value="${user.id}" />
 <input type="hidden" name="${AttributeConst.TOKEN.getValue()}" value="${_token}" />
-<button type="submit">投稿</button>
+<button type="submit">送信する</button>

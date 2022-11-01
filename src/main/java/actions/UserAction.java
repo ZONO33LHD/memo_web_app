@@ -98,10 +98,8 @@ public class UserAction extends ActionBase {
                     getRequestParam(AttributeConst.USR_CODE),
                     getRequestParam(AttributeConst.USR_NAME),
                     getRequestParam(AttributeConst.USR_PASS),
-                    //toNumber(getRequestParam(AttributeConst.EMP_ADMIN_FLG)),
                     null,
-                    null,
-                    AttributeConst.DEL_FLAG_FALSE.getIntegerValue());
+                    null);
 
             //アプリケーションスコープからpepper文字列を取得
             String pepper = getContextScope(PropertyConst.PEPPER);
@@ -144,15 +142,15 @@ public class UserAction extends ActionBase {
             //idを条件にユーザーデータを取得する
            UserView uv = service.findOne(toNumber(getRequestParam(AttributeConst.USR_ID)));
 
-            if (uv == null || uv.getDeleteFlag() == AttributeConst.DEL_FLAG_TRUE.getIntegerValue()) {
+            if (uv == null) {
 
-                //データが取得できなかった、または論理削除されている場合はエラー画面を表示
+                //データが取得できなかった場合はエラー画面を表示
                 forward(ForwardConst.FW_ERR_UNKNOWN);
                 return;
             }
 
             putRequestScope(AttributeConst.USER, uv); //取得したユーザー情報
-
+            putRequestScope(AttributeConst.TOKEN, getTokenId()); //★CSRF対策用トークン
             //詳細画面を表示
             forward(ForwardConst.FW_USR_SHOW);
         }
@@ -168,13 +166,6 @@ public class UserAction extends ActionBase {
 
             //idを条件にユーざーデータを取得する
             UserView uv = service.findOne(toNumber(getRequestParam(AttributeConst.USR_ID)));
-
-            if (uv == null || uv.getDeleteFlag() == AttributeConst.DEL_FLAG_TRUE.getIntegerValue()) {
-
-                //データが取得できなかった、または論理削除されている場合はエラー画面を表示
-                forward(ForwardConst.FW_ERR_UNKNOWN);
-                return;
-            }
 
             putRequestScope(AttributeConst.TOKEN, getTokenId()); //CSRF対策用トークン
             putRequestScope(AttributeConst.USER, uv); //取得したユーザー情報
@@ -199,10 +190,9 @@ public class UserAction extends ActionBase {
                     getRequestParam(AttributeConst.USR_CODE),
                     getRequestParam(AttributeConst.USR_NAME),
                     getRequestParam(AttributeConst.USR_PASS),
-                    //toNumber(getRequestParam(AttributeConst.EMP_ADMIN_FLG)),
+
                     null,
-                    null,
-                    AttributeConst.DEL_FLAG_FALSE.getIntegerValue());
+                    null);
 
             //アプリケーションスコープからpepper文字列を取得
             String pepper = getContextScope(PropertyConst.PEPPER);
@@ -231,26 +221,6 @@ public class UserAction extends ActionBase {
         }
     }
 
-    /**
-     * 論理削除を行う
-     * @throws ServletException
-     * @throws IOException
-     */
-    public void destroy() throws ServletException, IOException {
-
-        //CSRF対策 tokenのチェック
-        if (checkToken()) {
-
-            //idを条件にユーザーデータを論理削除する
-            service.destroy(toNumber(getRequestParam(AttributeConst.USR_ID)));
-
-            //セッションに削除完了のフラッシュメッセージを設定
-            putSessionScope(AttributeConst.FLUSH, MessageConst.I_DELETED.getMessage());
-
-            //一覧画面にリダイレクト
-            redirect(ForwardConst.ACT_USR, ForwardConst.CMD_INDEX);
-        }
-    }
 
 
 }

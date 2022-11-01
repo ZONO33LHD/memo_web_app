@@ -84,10 +84,6 @@ public class User {
     @Column(name = JpaConst.USR_COL_UPDATED_AT, nullable = false)
     private LocalDateTime updatedAt;
 
-    /**
-     * 削除されたユーザーかどうか（現役：0、削除済み：1）
-     */
-    @Column(name = JpaConst.USR_COL_DELETE_FLAG, nullable = false)
-    private Integer deleteFlag;
+
 
 }

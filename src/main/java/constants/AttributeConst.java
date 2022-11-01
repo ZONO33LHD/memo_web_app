@@ -32,12 +32,6 @@ public enum AttributeConst {
     USR_PASS("password"),
     USR_NAME("name"),
 
-
-
-    //削除フラグ
-    DEL_FLAG_TRUE(1),
-    DEL_FLAG_FALSE(0),
-
     //メモ管理
     MEMO("memo"),
     MEMOS("memos"),

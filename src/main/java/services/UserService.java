@@ -173,26 +173,7 @@ public class UserService extends ServiceBase {
         return errors;
     }
 
-    /**
-     * idを条件にユーザーデータを論理削除する
-     * @param id
-     */
-    public void destroy(Integer id) {
 
-        //idを条件に登録済みのユーザー情報を取得する
-        UserView savedUsr = findOne(id);
-
-        //更新日時に現在時刻を設定する
-        LocalDateTime today = LocalDateTime.now();
-        savedUsr.setUpdatedAt(today);
-
-        //論理削除フラグをたてる
-        savedUsr.setDeleteFlag(JpaConst.USR_DEL_TRUE);
-
-        //更新処理を行う
-        update(savedUsr);
-
-    }
 
     /**
      * ユーザー番号とパスワードを条件に検索し、データが取得できるかどうかで認証結果を返却する
@@ -251,6 +232,19 @@ public class UserService extends ServiceBase {
         em.getTransaction().begin();
         User u = findOneInternal(uv.getId());
         UserConverter.copyViewToModel(u, uv);
+        em.getTransaction().commit();
+
+    }
+
+    /**
+     * ユーザーを削除する
+     * @param uv メモデータ
+     */
+    public void deleteuser(UserView uv) {
+
+        em.getTransaction().begin();
+        User u = findOneInternal(uv.getId());
+        em.remove(u);
         em.getTransaction().commit();
 
     }

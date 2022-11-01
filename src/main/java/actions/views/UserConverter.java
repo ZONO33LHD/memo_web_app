@@ -3,8 +3,6 @@ package actions.views;
 import java.util.ArrayList;
 import java.util.List;
 
-import constants.AttributeConst;
-import constants.JpaConst;
 import models.User;
 
 /**
@@ -25,14 +23,8 @@ public class UserConverter {
                 uv.getCode(),
                 uv.getName(),
                 uv.getPassword(),
-                //ev.getAdminFlag() == null ? null: ev.getAdminFlag() == AttributeConst.ROLE_ADMIN.getIntegerValue() ? JpaConst.ROLE_ADMIN: JpaConst.ROLE_GENERAL,
                 uv.getCreatedAt(),
-                uv.getUpdatedAt(),
-                uv.getDeleteFlag() == null
-                        ? null
-                        : uv.getDeleteFlag() == AttributeConst.DEL_FLAG_TRUE.getIntegerValue()
-                                ? JpaConst.USR_DEL_TRUE
-                                : JpaConst.USR_DEL_FALSE);
+                uv.getUpdatedAt());
     }
 
     /**
@@ -42,7 +34,7 @@ public class UserConverter {
      */
     public static UserView toView(User u) {
 
-        if(u == null) {
+        if (u == null) {
             return null;
         }
 
@@ -51,20 +43,8 @@ public class UserConverter {
                 u.getCode(),
                 u.getName(),
                 u.getPassword(),
-                /*
-                e.getAdminFlag() == null
-                        ? null
-                        : e.getAdminFlag() == JpaConst.ROLE_ADMIN
-                                ? AttributeConst.ROLE_ADMIN.getIntegerValue()
-                                : AttributeConst.ROLE_GENERAL.getIntegerValue(),
-                */
                 u.getCreatedAt(),
-                u.getUpdatedAt(),
-                u.getDeleteFlag() == null
-                        ? null
-                        : u.getDeleteFlag() == JpaConst.USR_DEL_TRUE
-                                ? AttributeConst.DEL_FLAG_TRUE.getIntegerValue()
-                                : AttributeConst.DEL_FLAG_FALSE.getIntegerValue());
+                u.getUpdatedAt());
     }
 
     /**
@@ -92,10 +72,8 @@ public class UserConverter {
         u.setCode(uv.getCode());
         u.setName(uv.getName());
         u.setPassword(uv.getPassword());
-        //e.setAdminFlag(ev.getAdminFlag());
         u.setCreatedAt(uv.getCreatedAt());
         u.setUpdatedAt(uv.getUpdatedAt());
-        u.setDeleteFlag(uv.getDeleteFlag());
 
     }
 

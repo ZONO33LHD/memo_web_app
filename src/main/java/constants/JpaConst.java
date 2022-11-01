@@ -22,11 +22,7 @@ public interface JpaConst {
 
     String USR_COL_CREATED_AT = "created_at"; //登録日時
     String USR_COL_UPDATED_AT = "updated_at"; //更新日時
-    String USR_COL_DELETE_FLAG = "delete_flag"; //削除フラグ
 
-
-    int USR_DEL_TRUE = 1; //削除フラグON(削除済み)
-    int USR_DEL_FALSE = 0; //削除フラグOFF(現役)
 
     //メモテーブル
     String TABLE_MEM = "memos"; //テーブル名
@@ -58,7 +54,7 @@ public interface JpaConst {
     String Q_USR_COUNT_DEF = "SELECT COUNT(u) FROM User AS u";
     //ユーザー番号とハッシュ化済パスワードを条件に未削除のユーザーを取得する
     String Q_USR_GET_BY_CODE_AND_PASS = ENTITY_USR + ".getByCodeAndPass";
-    String Q_USR_GET_BY_CODE_AND_PASS_DEF = "SELECT u FROM User AS u WHERE u.deleteFlag = 0 AND u.code = :" + JPQL_PARM_CODE + " AND u.password = :" + JPQL_PARM_PASSWORD;
+    String Q_USR_GET_BY_CODE_AND_PASS_DEF = "SELECT u FROM User AS u WHERE u.code = :" + JPQL_PARM_CODE + " AND u.password = :" + JPQL_PARM_PASSWORD;
     //指定したユーザー番号を保持するユーザーの件数を取得する
     String Q_USR_COUNT_REGISTERED_BY_CODE = ENTITY_USR + ".countRegisteredByCode";
     String Q_USR_COUNT_REGISTERED_BY_CODE_DEF = "SELECT COUNT(u) FROM User AS u WHERE u.code = :" + JPQL_PARM_CODE;

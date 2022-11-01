@@ -157,8 +157,8 @@ public class MemoAction extends ActionBase {
 
         } else {
 
-            putRequestScope(AttributeConst.MEMO, mv); //取得しためも報データ
-
+            putRequestScope(AttributeConst.MEMO, mv); //取得したメモデータ
+            putRequestScope(AttributeConst.TOKEN, getTokenId()); //★CSRF対策用トークン
             //詳細画面を表示
             forward(ForwardConst.FW_MEM_SHOW);
         }
@@ -185,8 +185,7 @@ public class MemoAction extends ActionBase {
         } else {
 
             putRequestScope(AttributeConst.TOKEN, getTokenId()); //CSRF対策用トークン
-            putRequestScope(AttributeConst.MEMO, mv); //取得したメモデータ
-
+            putRequestScope(AttributeConst.MEMO, mv); //取得した日報データ
             //編集画面を表示
             forward(ForwardConst.FW_MEM_EDIT);
         }
@@ -235,13 +234,12 @@ public class MemoAction extends ActionBase {
             }
         }
     }
-
     /**
      * 削除を行う
      * @throws ServletException
      * @throws IOException
      */
-    public void delete() throws ServletException, IOException {
+    public void destroy() throws ServletException, IOException {
 
         //CSRF対策 tokenのチェック
         if (checkToken()) {
@@ -249,6 +247,10 @@ public class MemoAction extends ActionBase {
             //
             MemoView mv = new MemoView(toNumber(getRequestParam(AttributeConst.MEM_ID)), null, null, null, null, null,
                     null);
+            /*
+            putRequestScope(AttributeConst.MEMO, mv); //取得しためも報データ
+            putRequestScope(AttributeConst.TOKEN, getTokenId()); //★CSRF対策用トークン
+            */
 
             //削除
             service.delete(mv);

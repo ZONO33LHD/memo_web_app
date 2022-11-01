@@ -69,7 +69,7 @@ public class LoginServlet extends ActionBase {
         String plainPass = getRequestParam(AttributeConst.USR_PASS);
         String pepper = getContextScope(PropertyConst.PEPPER);
 
-        //有効な従業員か認証する
+        //有効なユーザーか認証する
         Boolean isValidUser = service.validateLogin(code, plainPass, pepper);
 
         if (isValidUser) {

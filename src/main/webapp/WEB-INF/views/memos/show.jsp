@@ -2,11 +2,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="constants.ForwardConst" %>
+<%@ page import="constants.AttributeConst" %>
 
 <c:set var="actMem" value="${ForwardConst.ACT_MEM.getValue()}" />
 <c:set var="commIdx" value="${ForwardConst.CMD_INDEX.getValue()}" />
 <c:set var="commEdt" value="${ForwardConst.CMD_EDIT.getValue()}" />
-<c:set var="commDel" value="${ForwardConst.CMD_DELETE.getValue()}" />
+<c:set var="commDel" value="${ForwardConst.CMD_DESTROY.getValue()}" />
 
 <c:import url="/WEB-INF/views/layout/app.jsp">
     <c:param name="content">
@@ -47,9 +48,25 @@
 
         <c:if test="${sessionScope.login_user.id == memo.user.id}">
             <p>
-                <a href="<c:url value='?action=${actMem}&command=${commDel}&id=${memo.id}' />">この日報を削除する</a>
+                <a href="#" onclick="confirmDestroy();">このメモ情報を削除する</a>
             </p>
+            <form method="POST" name="delForm"
+                action="<c:url value='?action=${actMem}&command=${commDel}' />">
+                <input type="hidden" name="id"
+                    value="${memo.id}" />
+                <input type="hidden" name="${AttributeConst.TOKEN.getValue()}"
+                    value="${_token}" />
+            </form>
+
+            <script>
+            function confirmDestroy() {
+                if (confirm("本当に削除してよろしいですか？")) {
+                    document.forms.delForm.submit();
+                }
+            }
+            </script>
         </c:if>
+
 
         <p>
             <a href="<c:url value='?action=${actMem}&command=${commIdx}' />">一覧に戻る</a>
